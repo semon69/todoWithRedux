@@ -1,11 +1,19 @@
-
-import { useAppSelector } from "@/redux/hooks";
 import AddTodoModal from "./AddTodoModal";
 import FilterDropDown from "./FilterDropDown";
-import TodoCard from "./TodoCard";
+import TodoCard, { TTodoCardProps } from "./TodoCard";
+import { useGetTodosQuery } from "@/redux/api/api";
 
 const TodoContainer = () => {
-  const {todos} = useAppSelector((state) => state.todos)
+  // * from local redux
+  // const {todos} = useAppSelector((state) => state.todos)
+
+  // From server
+  const {data : todos, isError, isLoading} = useGetTodosQuery(undefined)
+
+  if(isLoading){
+    return <p>Loading....</p>
+  }
+  
   return (
     <div>
       <div className="flex justify-between my-3">
@@ -18,7 +26,7 @@ const TodoContainer = () => {
         </div> */}
 
         {
-          todos.map((item) => <TodoCard key={item.id} {...item} />)
+          todos?.map((item: TTodoCardProps) => <TodoCard key={item._id} {...item} />)
         }
       </div>
     </div>

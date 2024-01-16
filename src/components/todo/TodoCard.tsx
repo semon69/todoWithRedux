@@ -1,34 +1,58 @@
 import { useAppDispatch } from "@/redux/hooks";
 import { Button } from "../ui/button";
-import { removeTodo, toggleTodo } from "@/redux/features/todoSlice";
+import { toggleTodo } from "@/redux/features/todoSlice";
 
-type TTodoCardProps = {
-  id: string;
+export type TTodoCardProps = {
+  _id: string;
   title: string;
   description: string;
   isCompleted?: boolean;
+  priority: string;
 };
 
-const TodoCard = ({ id, title, description, isCompleted }: TTodoCardProps) => {
+const TodoCard = ({
+  _id,
+  title,
+  description,
+  isCompleted,
+  priority,
+}: TTodoCardProps) => {
   const dispatch = useAppDispatch();
 
   const toggleIsCompleted = () => {
-    dispatch(toggleTodo(id));
+    dispatch(toggleTodo(_id));
   };
 
   return (
     <div className="flex justify-between items-center bg-white px-4 py-2 rounded-md mb-3">
-      <input onClick={toggleIsCompleted} type="checkbox" name="task" id="" />
-      <p className="font-semibold">{title}</p>
-      {/* <p>Time</p> */}
+      <input
+        onClick={toggleIsCompleted}
+        type="checkbox"
+        className="mr-3"
+        name="task"
+        id=""
+      />
+      <p className="font-semibold flex-1">{title}</p>
+      <div className="flex-1 flex items-center gap-3">
+        <div
+          className={`size-3 rounded-full 
+        ${priority === "high" ? "bg-red-600" : ""}
+        ${priority === "medium" ? "bg-blue-600" : ""}
+        ${priority === "low" ? "bg-green-600" : ""}
+        `}
+        ></div>
+        <p className="">{priority}</p>
+      </div>
       {isCompleted ? (
-        <p className="text-green-700">Done</p>
+        <p className="text-green-700 flex-1">Done</p>
       ) : (
-        <p className="text-red-700">Pending</p>
+        <p className="text-red-700 flex-1">Pending</p>
       )}
-      <p>{description}</p>
+      <p className="flex-[2]">{description}</p>
       <div className="flex space-x-8">
-        <Button onClick={() => dispatch(removeTodo(id))} className="bg-red-700">
+        <Button
+          className="bg-red-700 flex-1"
+        >
           <svg
             className="size-5"
             fill="none"
@@ -44,7 +68,7 @@ const TodoCard = ({ id, title, description, isCompleted }: TTodoCardProps) => {
             ></path>
           </svg>
         </Button>
-        <Button className="bg-blue-700">
+        <Button className="bg-blue-700 flex-1">
           <svg
             className="size-5"
             fill="none"
