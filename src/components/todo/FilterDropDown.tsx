@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,21 +8,23 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useState } from "react";
- 
+} from "@/components/ui/dropdown-menu";
 
-const FilterDropDown = () => {
-    const [position, setPosition] = useState("bottom")
+type TFilterParams = {
+  priority: string;
+  setPriority: any;
+};
+
+const FilterDropDown = ({ priority, setPriority }: TFilterParams) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-      <Button className="bg-blue-500">Filter</Button>
+        <Button className="bg-blue-500">Filter</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Filter By Priority</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+        <DropdownMenuRadioGroup value={priority} onValueChange={setPriority}>
           <DropdownMenuRadioItem value="high">High</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="medium">Medium</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="low">Low</DropdownMenuRadioItem>
